@@ -49,3 +49,20 @@ float Ball::bot()
 {
 	return this->shape.getPosition().y + shape.getRadius();
 }
+
+void Ball::moveLeft()
+{
+	this->velovity.x = -ballVelocity;
+}
+void Ball::moveRight()
+{
+	this->velovity.x = ballVelocity;
+}
+void Ball::moveUp()
+{
+	this->velovity.y = -ballVelocity;
+}
+void Ball::moveDown()
+{
+	this->velovity.y = ballVelocity;
+}

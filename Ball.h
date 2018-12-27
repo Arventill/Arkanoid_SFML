@@ -20,5 +20,10 @@ public:
 	float right();
 	float top();
 	float bot();
+
+	void moveLeft();
+	void moveRight();
+	void moveUp();
+	void moveDown();
 };
 
