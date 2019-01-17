@@ -8,17 +8,18 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-template <class T1, class T2> bool isIntersecting(T1& a, T2& b) //uniwersalna funkcja zwracaj¹ca wart. bool dla dowolnych 2 typów obiektów
+unsigned int tillTheEnd = 36;
+template <class T1, class T2> bool isIntersecting(T1& a, T2& b) //uniwersalna funkcja zwracaj¹ca wart. bool dla 2 obiektów dowolnego typu
 {
 	return a.right() >= b.left() && a.left() <= b.right()
 		&& a.top() <= b.bot() && a.bot() >= b.top();
 }
-
 bool ColisionTest(Brick& bBrick, Ball& bBall)
 {
 	if (!isIntersecting(bBrick, bBall)) return false;
 
-	bBrick.destroy();
+	bBrick.destroy(); //else
+	tillTheEnd--;
 
 	float overlapLeft{ bBall.right() - bBrick.left() };
 	float overlapRight{ bBrick.left() - bBall.right() };
@@ -43,9 +44,10 @@ bool ColisionTest(Brick& bBrick, Ball& bBall)
 
 int main()
 {
-	Ball ball(400, 300);
-	Pad pad(400, 550);
-	unsigned brickX{ 9 }, brickY{ 4 }, brickWidth{ 60 }, brickHeight{ 20 };
+#pragma region onCreate
+	Ball ball(400, 300); //ball position
+	Pad pad(400, 550); //pad position
+	unsigned brickX{ 9 }, brickY{ 4 }, brickWidth{ 60 }, brickHeight{ 20 }; // blocks in row, rows, width, height
 
 	std::vector<Brick> bricks;
 	for (int i = 0; i < brickY; i++)
@@ -53,31 +55,28 @@ int main()
 		for (int j = 0; j < brickX; j++)
 		{
 			bricks.emplace_back((j + 1)*(brickWidth + 20), (i + 2)*(brickHeight + 10), brickWidth, brickHeight);
-			//
+			//placing my bricks ( block * (width + freeSpace) , anyways back to this later.
 		}
 	}
 
-
 	sf::RenderWindow window{ {800,600}, "Arkanoid Game" };
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(60); //60ps
+#pragma endregion
 
 	while (window.isOpen())
 	{
 #pragma region WindowEvent
-
-
-
 		sf::Event windowEvent;
 		while (window.pollEvent(windowEvent))
 		{
-			if (windowEvent.type == sf::Event::Closed)
+			if (windowEvent.type == sf::Event::Closed) //closing my game by button
 				window.close();
 		}
 		window.clear(sf::Color::Black);
 #pragma endregion
 
-		ball.update(pad.currentPos(), pad.param());
-		for (auto& brick : bricks)
+#pragma region forEachLoops
+		for (auto& brick : bricks) //  <-- foreach loop
 			if (ColisionTest(brick,ball))
 				break;
 
@@ -86,11 +85,16 @@ int main()
 
 		for (auto& brick : bricks) //  <-- foreach
 			window.draw(brick);
+#pragma endregion
 
+#pragma region drawDisplay
+		ball.update(pad.currentPos(), pad.param());
 		window.draw(ball);
 		window.draw(pad);
 		window.display();
+#pragma endregion
 
+#pragma region padMoving
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			pad.right();
@@ -98,6 +102,14 @@ int main()
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			pad.left();
+		}
+#pragma endregion
+
+		if (tillTheEnd == 0)
+		{
+			ball.~Ball();
+			pad.~Pad();
+			window.close();
 		}
 	}
 }
