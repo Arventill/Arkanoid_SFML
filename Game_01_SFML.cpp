@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <iostream>
 #include <Windows.h>
 #include <string>
@@ -14,8 +15,8 @@
 unsigned int tillTheEnd = 36;
 const short windX = 800;	 //window
 const short windY = 600;
-const short ballPosX = 400;	 //ball
-const short ballPosY = 300;
+const short ballPosX = 350;	 //ball
+const short ballPosY = 500;
 const short padPosX = 400;	 //pad
 const short padPosY = 550;
 const short columns = 9;	 //bricks
@@ -113,18 +114,28 @@ int main()
 		window.draw(pad);
 		window.display();
 		
-		if (tillTheEnd == 0)
+		if (tillTheEnd == 0 || ball.top() >= 550)
 		{
+			window.clear(sf::Color::Black);
 			std::string gameOver = "GAME OVER";
-			_CONSOLE_FONT_INFOEX textProps;
-			textProps.dwFontSize.Y = 55;
+			sf::Font font;
+			sf::Text text(gameOver, font, 75);
+			if (!font.loadFromFile("arial.ttf"))
+				return EXIT_FAILURE;
+			/*_CONSOLE_FONT_INFOEX textProps;
+			textProps.dwFontSize.Y = 55;*/
 			ball.~Ball();
 			pad.~Pad();
-			window.clear(sf::Color::Black);
-			SetCursorPos( ((window.getSize().x / 2) - (gameOver.length() / 2)), window.getSize().y );
+			/*SetCursorPos( ((window.getSize().x / 2) - (gameOver.length() / 2)), window.getSize().y );
 			SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE),NULL,&textProps);
-			std::cout << gameOver;
-			Sleep(500);
+			std::cout << gameOver;*/
+			text.setFillColor(sf::Color::White);
+			text.setStyle(sf::Text::Bold);
+			text.setPosition( ((windX / 2) - (gameOver.length()*25 )), windY / 2.5f ); //w tym przypadku wymuszenie wyœrodkowania tekstu
+			window.draw(text);
+			window.display();
+
+			Sleep(2500);
 			window.close();
 		}
 	}
