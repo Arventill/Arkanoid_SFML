@@ -25,7 +25,7 @@ const short brickW = 60;
 const short brickH = 20;
 
 #pragma region HelperMethods
-template <class T1, class T2> bool isIntersecting(T1& a, T2& b) //uniwersalna funkcja zwracaj¹ca wart. bool dla 2 obiektów dowolnego typu
+template <class T1, class T2> bool isIntersecting(T1& a, T2& b) //uniwersalna funkcja zwracajÂ¹ca wart. bool dla 2 obiektÃ³w dowolnego typu
 {
 	return a.right() >= b.left() && a.left() <= b.right()
 		&& a.top() <= b.bot() && a.bot() >= b.top();
@@ -77,7 +77,7 @@ int main()
 	}
 
 	sf::RenderWindow window{ {windX,windY}, "Arkanoid Game" };
-	window.setFramerateLimit(60); //60ps
+	window.setFramerateLimit(60);
 #pragma endregion
 
 #pragma region MainLoop
@@ -100,7 +100,7 @@ int main()
 		sf::Event windowEvent;
 		while (window.pollEvent(windowEvent))
 		{
-			if (windowEvent.type == sf::Event::Closed) //closing my game by button
+			if (windowEvent.type == sf::Event::Closed)
 				window.close();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -119,9 +119,9 @@ int main()
 			window.clear(sf::Color::Black);
 			std::string gameOver = "GAME OVER";
 			sf::Font font;
-			sf::Text text(gameOver, font, 75);
 			if (!font.loadFromFile("arial.ttf"))
 				return EXIT_FAILURE;
+			sf::Text text(gameOver, font, 75);
 			/*_CONSOLE_FONT_INFOEX textProps;
 			textProps.dwFontSize.Y = 55;*/
 			ball.~Ball();
@@ -131,7 +131,7 @@ int main()
 			std::cout << gameOver;*/
 			text.setFillColor(sf::Color::White);
 			text.setStyle(sf::Text::Bold);
-			text.setPosition( ((windX / 2) - (gameOver.length()*25 )), windY / 2.5f ); //w tym przypadku wymuszenie wyœrodkowania tekstu
+			text.setPosition( ((windX / 2) - (gameOver.length()*25 )), windY / 2.5f ); //force text-align
 			window.draw(text);
 			window.display();
 
