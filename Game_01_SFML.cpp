@@ -13,8 +13,8 @@
 #include <cwchar>
 
 unsigned int tillTheEnd = 36;
-const short windX = 800;	 //window
-const short windY = 600;
+const unsigned int windX = 800;	 //window
+const unsigned int windY = 600;
 const short ballPosX = 350;	 //ball
 const short ballPosY = 500;
 const short padPosX = 400;	 //pad
@@ -25,10 +25,10 @@ const short brickW = 60;
 const short brickH = 20;
 
 #pragma region HelperMethods
-template <class T1, class T2> bool isIntersecting(T1& a, T2& b) //uniwersalna funkcja zwracajÂ¹ca wart. bool dla 2 obiektÃ³w dowolnego typu
+template <class T1, class T2> bool isIntersecting(T1& ball, T2& brick) //uniwersalna funkcja zwracaj¹ca wart. bool dla 2 obiektów dowolnego typu
 {
-	return a.right() >= b.left() && a.left() <= b.right()
-		&& a.top() <= b.bot() && a.bot() >= b.top();
+	return ball.right() >= brick.left() && ball.left() <= brick.right()
+		&& ball.top() <= brick.bot() && ball.bot() >= brick.top();
 }
 
 bool ColisionTest(Brick& bBrick, Ball& bBall)
@@ -72,7 +72,7 @@ int main()
 		for (int j = 0; j < brickX; j++)
 		{
 			bricks.emplace_back((j + 1)*(brickWidth + 20), (i + 2)*(brickHeight + 10), brickWidth, brickHeight);
-			//placing my bricks ( block * (width + freeSpace) , anyways back to this later.
+			//placing my bricks ( block * (width + freeSpace) , (i + freeSpace)*(brickHeight + freeSpace), brickWidth, brickHeight
 		}
 	}
 
@@ -119,9 +119,9 @@ int main()
 			window.clear(sf::Color::Black);
 			std::string gameOver = "GAME OVER";
 			sf::Font font;
+			sf::Text text(gameOver, font, 75);
 			if (!font.loadFromFile("arial.ttf"))
 				return EXIT_FAILURE;
-			sf::Text text(gameOver, font, 75);
 			/*_CONSOLE_FONT_INFOEX textProps;
 			textProps.dwFontSize.Y = 55;*/
 			ball.~Ball();
@@ -131,7 +131,7 @@ int main()
 			std::cout << gameOver;*/
 			text.setFillColor(sf::Color::White);
 			text.setStyle(sf::Text::Bold);
-			text.setPosition( ((windX / 2) - (gameOver.length()*25 )), windY / 2.5f ); //force text-align
+			text.setPosition( ((windX / 2) - (gameOver.length()*25 )), windY / 2.5f ); //w tym przypadku wymuszenie wyœrodkowania tekstu
 			window.draw(text);
 			window.display();
 
