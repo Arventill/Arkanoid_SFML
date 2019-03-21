@@ -13,6 +13,7 @@ void Brick::draw(sf::RenderTarget& target, sf::RenderStates state) const
 	target.draw(this->shape, state);
 }
 
+#pragma region positions
 float Brick::right()
 {
 	return this->shape.getPosition().x + shape.getSize().x / 2.0f;
@@ -38,7 +39,9 @@ sf::Vector2f Brick::getSize()
 {
 	return this->shape.getSize();
 }
+#pragma endregion
 
+#pragma region action
 bool Brick::isDestroyed()
 {
 	return this->destroyed;
@@ -47,8 +50,8 @@ void Brick::destroy()
 {
 	this->destroyed = true;
 }
-
 void Brick::update()
 {
-	;
+	; //nope
 }
+#pragma endregion

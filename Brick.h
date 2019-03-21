@@ -1,5 +1,4 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 
 class Brick : public sf::Drawable
@@ -14,16 +13,14 @@ public:
 	~Brick() = default;
 
 	void update();
+	void destroy();
+	bool isDestroyed();
 	sf::Vector2f getPos();
+	sf::Vector2f getSize();
 
 	float right();
 	float left();
 	float top();
 	float bot();
-
-	bool isDestroyed();
-	void destroy();
-
-	sf::Vector2f getSize();
 };
 

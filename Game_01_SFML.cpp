@@ -3,6 +3,8 @@
 #include "Ball.h"
 #include "Pad.h"
 #include "Brick.h"
+#include "Random.h"
+#include "Enum.cpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -57,13 +59,24 @@ bool ColisionTest(Brick& bBrick, Ball& bBall)
 			ballFromTop ? bBall.moveUp() : bBall.moveDown();
 	}
 }
+
+int randPosition()
+{
+	int choice = RandomizePos(Random::iRand());
+
+	return choice;
+}
 #pragma endregion
 
 int main()
 {
+	srand(time(NULL));
 #pragma region onCreate
-	Ball ball(ballPosX, ballPosY);
-	Pad pad(padPosX, padPosY);
+	int posX = Random::RdPs();
+
+	Ball ball(posX, ballPosY+10);
+	Random::iLeftRight() ? ball.moveLeft() : ball.moveRight();
+	Pad pad(posX, padPosY);
 	unsigned brickX{ columns }, brickY{ rows }, brickWidth{ brickW }, brickHeight{ brickH };
 
 	std::vector<Brick> bricks;

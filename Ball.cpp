@@ -8,7 +8,7 @@ Ball::Ball(float t_X, float t_Y)
 	shape.setOrigin(this->ballRadius, this->ballRadius);
 }
 
-void Ball::draw(sf::RenderTarget& target, sf::RenderStates state) const
+void Ball::draw(sf::RenderTarget& target, sf::RenderStates state) const //virtual void
 {
 	target.draw(this->shape, state);
 }
@@ -30,9 +30,9 @@ void Ball::update(sf::Vector2f pos, sf::Vector2f param)
 	{
 		velovity.y = -ballVelocity;
 	}
-
 }
 
+#pragma region ballMovement
 float Ball::left()
 {
 	return this->shape.getPosition().x - shape.getRadius();
@@ -66,3 +66,4 @@ void Ball::moveDown()
 {
 	this->velovity.y = ballVelocity;
 }
+#pragma endregion

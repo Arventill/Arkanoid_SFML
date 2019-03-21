@@ -8,26 +8,28 @@ Pad::Pad(float t_X, float t_Y)
 	shape.setSize(testVex);
 }
 
-void Pad::draw(sf::RenderTarget& target, sf::RenderStates state) const
+void Pad::draw(sf::RenderTarget& target, sf::RenderStates state) const //virtual void
 {
 	target.draw(this->shape, state);
 }
 
+#pragma region padMovement
 void Pad::right()
 {
-	if (shape.getPosition().x + w/2 <= 800 - 10)
+	if (shape.getPosition().x + w / 2 <= 800 - 10)
 		shape.move(this->velocity);
 }
 void Pad::left()
 {
-	if (shape.getPosition().x - w/2 >= 0 + 10)
+	if (shape.getPosition().x - w / 2 >= 0 + 10)
 		shape.move(this->rVelocity);
 }
 sf::Vector2f Pad::currentPos()
 {
-	return {shape.getPosition().x, shape.getPosition().y};
+	return { shape.getPosition().x, shape.getPosition().y };
 }
 sf::Vector2f Pad::param()
 {
 	return { w, h };
 }
+#pragma endregion
